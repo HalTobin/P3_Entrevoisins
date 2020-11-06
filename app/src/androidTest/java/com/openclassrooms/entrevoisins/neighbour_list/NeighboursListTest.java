@@ -100,7 +100,7 @@ public class NeighboursListTest {
     }
 
     @Test
-    public void myNeighboursList_removeFavoriteAction_shouldRemoveItem() {
+    public void myNeighboursList_removeAction_shouldRemoveItem() {
         // Add an item to the list of favorite
         myFavoriteList_addAFavorite();
         // Perform a click on the tab 'Favorites'
