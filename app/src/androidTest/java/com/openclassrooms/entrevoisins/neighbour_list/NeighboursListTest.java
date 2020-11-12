@@ -1,8 +1,8 @@
 
 package com.openclassrooms.entrevoisins.neighbour_list;
 
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.ui.neighbour_data.NeighbourDataActivity;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.AddNeighbourActivity;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 import com.openclassrooms.entrevoisins.utils.RemoveViewAction;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,14 +30,16 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
+
 import static org.hamcrest.core.IsNull.notNullValue;
 
 
@@ -59,8 +61,14 @@ public class NeighboursListTest {
 
     @Before
     public void setUp() {
+        Intents.init();
         mActivity = mActivityRule.getActivity();
         assertThat(mActivity, notNullValue());
+    }
+
+    @After
+    public void endTest() {
+        Intents.release();
     }
 
     /**
@@ -85,6 +93,30 @@ public class NeighboursListTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
         // Then : the number of element is 11
         onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT-1));
+    }
+
+    @Test
+    public void myAddNeighbourActivity_isLaunched() {
+        // Perform a click on the first element from the list
+        onView(withId(R.id.add_neighbour)).perform(click());
+        // Check if the AddNeighbourActivity is launched
+        intended(hasComponent(AddNeighbourActivity.class.getName()));
+    }
+
+    @Test
+    public void myNeighbourDataActivity_isLaunched() {
+        // Perform a click on the first element from the list
+        onView(withId(R.id.list_neighbours)).perform(actionOnItemAtPosition(0, click()));
+        // Check if the NeighbourDataActivity is launched
+        intended(hasComponent(NeighbourDataActivity.class.getName()));
+    }
+
+    @Test
+    public void myNeighbourDataActivity_isNameValid() {
+        // Perform a click on the first element from the list
+        onView(withId(R.id.list_neighbours)).perform(actionOnItemAtPosition(0, click()));
+        // Check the TextView content
+        onView(withId(R.id.activity_neighbour_data_txt_name)).check(matches(withText("Caroline")));
     }
 
     @Test
@@ -114,4 +146,5 @@ public class NeighboursListTest {
         // Check if the list is empty
         onView(ViewMatchers.withId(R.id.list_favorite)).check(withItemCount(0));
     }
+
 }
