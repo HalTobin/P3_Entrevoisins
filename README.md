@@ -1,6 +1,7 @@
 # OpenClassrooms
 
-Si vous avez récupéré le projet depuis le lien Github :
+Pour compiler l'application :
+
 1. Rendez vous à la racine du repository git
 2. Cliquez sur le bouton "Code" en vert, puis sélectionnez "Download ZIP"
 3. Vous pouvez extraire l'archive ou bon vous semble
