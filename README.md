@@ -4,7 +4,7 @@ Pour compiler l'application :
 
 1. Rendez vous à la racine du repository git
 2. Cliquez sur le bouton "Code" en vert, puis sélectionnez "Download ZIP"
-3. Vous pouvez extraire l'archive ou bon vous semble
+3. Vous pouvez extraire l'archive où bon vous semble
 4. Rendez vous sur votre IDE
 5. Cliquez sur "File"/"Fichier" puis sur "Open..."/"Ouvrir", puis sélectionnez le dossier "P3_Entrevoisins_main"
 6. Une fois le projet chargé, cliquez sur "Sync Project With Gradle"
